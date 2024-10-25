@@ -26,8 +26,8 @@ logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
 TENANT_NAME = "worms"
 TOKEN_URL = f"https://idp.mycityapp.cloud.test.kobil.com/auth/realms/{TENANT_NAME}/protocol/openid-connect/token/"
-CLIENT_ID = "fff41931-d2c5-4460-958b-155dce8902e2"
-CLIENT_SECRET = "6236acd0-3044-445b-ae9a-72e4c37a0668"
+CLIENT_ID = "bec2a19b-8b1d-4665-b9bd-5cf5f86dbcda"
+CLIENT_SECRET = "2e5f8551-82f2-460d-98e2-1b90deed3b03"
 USERNAME = "integration"
 PASSWORD = "MhNBBhA7hvZNGuJZ"
 
