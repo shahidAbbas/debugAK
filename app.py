@@ -11,6 +11,8 @@ app = Flask(__name__)
 app.secret_key = '4c3d2e1f0a9b8c7d6e5f4g3h2i1j0k9l'  # Replace with your generated secret key
 
 # Shared list to store messages
+# Shared list to store messages
+# Shared list to store messages
 messages = []
 lock = threading.Lock()
 
