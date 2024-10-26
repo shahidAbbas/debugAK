@@ -144,6 +144,7 @@ def chat_callback():
     if message_type == "init":
         # Ask for the user's street name
         send_message(user_id, "🛤️ Bitte geben Sie Ihren Straßennamen ein.")
+        send_message(user_id, "Siiiii")
     elif message_type == "processChatMessage" and message_content:
         # Process the user's response (assume it's the street name)
         street_name = clean_street_name(message_content.strip())
