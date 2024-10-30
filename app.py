@@ -144,7 +144,6 @@ def chat_callback():
     if message_type == "init":
         # Ask for the user's street name
         send_message(user_id, "🛤️ Bitte geben Sie Ihren Straßennamen ein.")
-        send_message(user_id, "Hello Debug")
     elif message_type == "processChatMessage" and message_content:
         # Process the user's response (assume it's the street name)
         street_name = clean_street_name(message_content.strip())
@@ -161,6 +160,7 @@ def chat_callback():
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
             send_message(user_id, "Bitte wählen Sie eine der folgenden Straßenoptionen:")
+            send_message(user_id, "All Links values:", list(street_options.values()))
             send_choice_message(user_id, "Bitte wählen Sie Ihre Straße:", list(street_options.keys()))
         else:
             send_message(user_id, "❌ Straße nicht gefunden. Bitte versuchen Sie es erneut.")
