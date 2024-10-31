@@ -175,10 +175,14 @@ def chat_callback():
         #street_options = session.pop(f'{conversation_id}_street_options', {})
 
         # Shahid workaround
-        streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
-        allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+        checkMem = get_street_web_address("Alzeyer")
+        allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
         send_message(user_id, allLinks)
-        
+
+        streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+        #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+        #send_message(user_id, allLinks)
+
         if streetChoiceURLs: 
             street_url = streetChoiceURLs.get(street_choice)
             send_message(user_id, street_url)
