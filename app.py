@@ -159,8 +159,9 @@ def chat_callback():
                 send_message(user_id, response_message)
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
+            allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
+            send_message(user_id, allLinks)
             send_message(user_id, "Bitte wählen Sie eine der folgenden Straßenoptionen:")
-            send_message(user_id, "All Links values:", list(street_options.values()))
             send_choice_message(user_id, "Bitte wählen Sie Ihre Straße:", list(street_options.keys()))
         else:
             send_message(user_id, "❌ Straße nicht gefunden. Bitte versuchen Sie es erneut.")
