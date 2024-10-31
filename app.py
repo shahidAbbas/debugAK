@@ -156,7 +156,7 @@ def chat_callback():
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
                 response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
+                response_message += "\n".join(dates)
                 send_message(user_id, response_message)
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
@@ -185,14 +185,14 @@ def chat_callback():
         #send_message(user_id, allLinks)
 
         cleanChoiceStreetName = clean_street_name(street_choice)
-        send_message(user_id, cleanChoiceStreetName)
+        #send_message(user_id, cleanChoiceStreetName)
         streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
         #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
         #send_message(user_id, allLinks)
 
         if streetChoiceURLs: 
             street_url = streetChoiceURLs.get(street_choice)
-            send_message(user_id, street_url)
+            #send_message(user_id, street_url)
         else:
             send_message(user_id, "Not picked up")
             
