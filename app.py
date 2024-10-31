@@ -174,8 +174,12 @@ def chat_callback():
 
         # Shahid workaround
         streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
-
-        street_url = streetChoiceURLs.get(street_choice)
+        if streetChoiceURLs: 
+            street_url = streetChoiceURLs.get(street_choice)
+            send_message(user_id, street_url)
+        else:
+            send_message(user_id, "Not picked up")
+            
         if street_url:
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
