@@ -176,6 +176,9 @@ def chat_callback():
 
         # Shahid workaround
         streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+        allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+        send_message(user_id, allLinks)
+        
         if streetChoiceURLs: 
             street_url = streetChoiceURLs.get(street_choice)
             send_message(user_id, street_url)
