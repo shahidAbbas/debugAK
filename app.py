@@ -126,6 +126,7 @@ def get_abholtermine(street_url):
 def clean_street_name(street_name):
     # Remove numbers and extra spaces from the street name
     cleaned_name = re.sub(r'\d+', '', street_name).strip()
+    cleaned_name = cleaned_name.replace('-', ' ').strip()  # Replace dashes with spaces and remove extra spaces
     return cleaned_name
 
 @app.route('/')
@@ -178,7 +179,7 @@ def chat_callback():
         checkMem = get_street_web_address("Alzeyer")
         allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
         send_message(user_id, allLinks)
-        
+
         cleanChoiceStreetName = clean_street_name(street_choice)
         send_message(user_id, cleanChoiceStreetName)
         streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
