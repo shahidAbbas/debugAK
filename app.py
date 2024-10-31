@@ -170,6 +170,8 @@ def chat_callback():
         send_message(user_id, f"Sie haben gewählt: {street_choice}")
 
         street_options = session.pop(f'{conversation_id}_street_options', {})
+        allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
+        send_message(user_id, allLinks)
 
         street_url = street_options.get(street_choice)
         if street_url:
