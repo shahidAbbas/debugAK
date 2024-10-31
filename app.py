@@ -160,8 +160,8 @@ def chat_callback():
                 send_message(user_id, response_message)
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
-            allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
-            send_message(user_id, allLinks)
+            #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
+            #send_message(user_id, allLinks)
             send_message(user_id, "Bitte wählen Sie eine der folgenden Straßenoptionen:")
             send_choice_message(user_id, "Bitte wählen Sie Ihre Straße:", list(street_options.keys()))
         else:
@@ -173,12 +173,15 @@ def chat_callback():
         send_message(user_id, len(street_choice))
          
         #Commented this section because session.pop is not working
-        #street_options = session.pop(f'{conversation_id}_street_options', {})
+        street_options = session.pop(f'{conversation_id}_street_options', {})
+        if street_options:
+            allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+            send_message(user_id, allLinks)
 
         # Shahid workaround
-        checkMem = get_street_web_address("Alzeyer")
-        allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
-        send_message(user_id, allLinks)
+        #checkMem = get_street_web_address("Alzeyer")
+        #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
+        #send_message(user_id, allLinks)
 
         cleanChoiceStreetName = clean_street_name(street_choice)
         send_message(user_id, cleanChoiceStreetName)
