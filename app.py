@@ -168,6 +168,8 @@ def chat_callback():
     elif message_type == "choiceResponse" and message_content:
         street_choice = message_content.strip()
         send_message(user_id, f"Sie haben gewählt: {street_choice}")
+        send_message(user_id, f"Sie haben gewählt: {street_choice}")
+        send_message(user_id, len(street_choice))
          
         #Commented this section because session.pop is not working
         #street_options = session.pop(f'{conversation_id}_street_options', {})
