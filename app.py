@@ -178,8 +178,10 @@ def chat_callback():
         checkMem = get_street_web_address("Alzeyer")
         allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
         send_message(user_id, allLinks)
-
-        streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+        
+        cleanChoiceStreetName = clean_street_name(street_choice)
+        send_message(user_id, cleanChoiceStreetName)
+        streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
         #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
         #send_message(user_id, allLinks)
 
