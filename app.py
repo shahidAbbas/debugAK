@@ -168,17 +168,19 @@ def chat_callback():
     elif message_type == "choiceResponse" and message_content:
         street_choice = message_content.strip()
         send_message(user_id, f"Sie haben gewählt: {street_choice}")
+         
+        #Commented this section because session.pop is not working
+        #street_options = session.pop(f'{conversation_id}_street_options', {})
 
-        street_options = session.pop(f'{conversation_id}_street_options', {})
-       # allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
-        #send_message(user_id, allLinks)
+        # Shahid workaround
+        streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
 
-        street_url = street_options.get(street_choice)
+        street_url = streetChoiceURLs.get(street_choice)
         if street_url:
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
                 response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
+                response_message += "\n".join(dates)
                 send_message(user_id, response_message)
         else:
             send_message(user_id, "❌ Auswahl ungültig. Bitte versuchen Sie es erneut.")
