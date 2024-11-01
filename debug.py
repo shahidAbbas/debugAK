@@ -84,19 +84,19 @@ def clean_street_name(street_name):
 
 street_choice = 'Alzeyer Straße 201-345; 188-300'
 print(clean_street_name(street_choice))
-print(street_choice)
+print(str(street_choice))
          
-# streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
 # allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
 
 # #print(allLinks)
 
-# street_url = streetChoiceURLs.get(street_choice)
+street_url = streetChoiceURLs.get(street_choice)
 
-# print((street_url))
-# if street_url:
-#             abholtermine = get_abholtermine(street_url)
-#             for category, dates in abholtermine.items():
-#                 response_message = f"{category}:\n"
-#                 response_message += "\n".join(dates)
-#                 print(response_message)
+print((street_url))
+if street_url:
+            abholtermine = get_abholtermine(street_url)
+            for category, dates in abholtermine.items():
+                response_message = f"{category}:\n"
+                response_message += "\n".join(dates)
+                print(response_message)

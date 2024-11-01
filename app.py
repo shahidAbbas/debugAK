@@ -125,8 +125,7 @@ def get_abholtermine(street_url):
 
 def clean_street_name(street_name):
     # Remove numbers and extra spaces from the street name
-    cleaned_name = re.sub(r'\d+', '', street_name).strip()
-    cleaned_name = cleaned_name.replace('-', ' ').strip()  # Replace dashes with spaces and remove extra spaces
+    cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
     return cleaned_name
 
 @app.route('/')
