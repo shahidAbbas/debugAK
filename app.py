@@ -108,6 +108,7 @@ def get_abholtermine(street_url):
 
     divs = soup.find_all('div', style=lambda value: value and 'margin-top:25px;' in value)
     category_order = ["Gelbe Tonne 🟨", "Altpapier 📄", "Restabfall (bis 240 Liter) 🗑️", "Bio-Abfälle 🌱"]
+    today = datetime.now()
 
     for idx, div in enumerate(divs):
         current_category = category_order[idx // 3]
