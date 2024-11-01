@@ -122,9 +122,9 @@ def get_abholtermine(street_url):
     return abholtermine
 
 def clean_street_name(street_name):
-    # Remove numbers and extra spaces from the street name
-    cleaned_name = re.sub(r'\d+', '', street_name).strip()
-    return cleaned_name
+    #Matches pattern for German Address Formats and EBWO website Search formats
+    match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
+    return match.group(0).strip()
 
 @app.route('/')
 def index():
@@ -153,7 +153,7 @@ def chat_callback():
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
                 response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
+                response_message += "\n".join(dates)
                 send_message(user_id, response_message)
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
@@ -165,15 +165,24 @@ def chat_callback():
         street_choice = message_content.strip()
         send_message(user_id, f"Sie haben gewählt: {street_choice}")
 
-        street_options = session.pop(f'{conversation_id}_street_options', {})
+        # street_options = session.pop(f'{conversation_id}_street_options', {})
+        # if street_options:
+        #     allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+        #     send_message(user_id, allLinks)
+        # else:
+        #     send_message(user_id, 'SessionPop not working')
 
-        street_url = street_options.get(street_choice)
-        if street_url:
-            abholtermine = get_abholtermine(street_url)
-            for category, dates in abholtermine.items():
-                response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
-                send_message(user_id, response_message)
+        cleanChoiceStreetName = clean_street_name(street_choice)
+        streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
+
+        if streetChoiceURLs: 
+            street_url = streetChoiceURLs.get(street_choice)
+            if street_url:
+                abholtermine = get_abholtermine(street_url)
+                for category, dates in abholtermine.items():
+                    response_message = f"{category}:\n"
+                    response_message += "\n".join(dates)
+                    send_message(user_id, response_message)
         else:
             send_message(user_id, "❌ Auswahl ungültig. Bitte versuchen Sie es erneut.")
     else:

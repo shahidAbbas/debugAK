@@ -85,14 +85,30 @@ def clean_street_name(street_name):
     match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
     return match.group(0).strip()
 
-street_choice = 'Alzeyer Straße 201-345A; 188-300C'
-street_choice2 = 'Von-Steuben-Straße (DRK) 49-53'
-street_choice3 = 'St.-Urban-Straße'
-print(clean_street_name(street_choice))
-print(clean_street_name(street_choice2))
-print(clean_street_name(street_choice3))
+street_choice = 'Ahornweg'
+cleanChoiceStreetName = clean_street_name(street_choice)
+streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
+
+if streetChoiceURLs: 
+    street_url = streetChoiceURLs.get(street_choice)
+    if street_url:
+        print(street_url)
+        abholtermine = get_abholtermine(street_url)
+        for category, dates in abholtermine.items():
+            response_message = f"{category}:\n"
+            response_message += "\n".join(dates)
+            print(response_message)
+    else:
+        print('❌ Auswahl ungültig. Bitte versuchen Sie es erneut.')
+
+# street_choice = 'Alzeyer Straße 201-345A; 188-300C'
+# street_choice2 = 'Von-Steuben-Straße (DRK) 49-53'
+# street_choice3 = 'St.-Urban-Straße'
+# print(clean_street_name(street_choice))
+# print(clean_street_name(street_choice2))
+# print(clean_street_name(street_choice3))
          
-streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+# streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
 # allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
 
 # #print(allLinks)

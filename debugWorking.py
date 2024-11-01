@@ -11,6 +11,8 @@ app = Flask(__name__)
 app.secret_key = '4c3d2e1f0a9b8c7d6e5f4g3h2i1j0k9l'  # Replace with your generated secret key
 
 # Shared list to store messages
+# Shared list to store messages
+# Shared list to store messages
 messages = []
 lock = threading.Lock()
 
@@ -122,9 +124,11 @@ def get_abholtermine(street_url):
     return abholtermine
 
 def clean_street_name(street_name):
-    # Remove numbers and extra spaces from the street name
-    cleaned_name = re.sub(r'\d+', '', street_name).strip()
-    return cleaned_name
+    match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
+    return match.group(0).strip()
+    # # Remove numbers, special character and extra spaces from the street name
+    # cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
+    # return cleaned_name
 
 @app.route('/')
 def index():
@@ -153,10 +157,12 @@ def chat_callback():
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
                 response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
+                response_message += "\n".join(dates)
                 send_message(user_id, response_message)
         elif len(street_options) > 1:
             session[f'{conversation_id}_street_options'] = street_options
+            #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in street_options.items()])
+            #send_message(user_id, allLinks)
             send_message(user_id, "Bitte wählen Sie eine der folgenden Straßenoptionen:")
             send_choice_message(user_id, "Bitte wählen Sie Ihre Straße:", list(street_options.keys()))
         else:
@@ -164,15 +170,38 @@ def chat_callback():
     elif message_type == "choiceResponse" and message_content:
         street_choice = message_content.strip()
         send_message(user_id, f"Sie haben gewählt: {street_choice}")
-
+        #send_message(user_id, len(street_choice))
+         
+        #Commented this section because session.pop is not working
         street_options = session.pop(f'{conversation_id}_street_options', {})
+        if street_options:
+            allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+            send_message(user_id, allLinks)
+        else:
+            send_message(user_id, 'SessionPop not working')
 
-        street_url = street_options.get(street_choice)
+        # Shahid workaround
+        #checkMem = get_street_web_address("Alzeyer")
+        #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in checkMem.items()])
+        #send_message(user_id, allLinks)
+
+        cleanChoiceStreetName = clean_street_name(street_choice)
+        #send_message(user_id, cleanChoiceStreetName)
+        streetChoiceURLs = get_street_web_address(cleanChoiceStreetName)
+        #allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+        #send_message(user_id, allLinks)
+
+        if streetChoiceURLs: 
+            street_url = streetChoiceURLs.get(street_choice)
+            #send_message(user_id, street_url)
+        else:
+            send_message(user_id, "Not picked up")
+            
         if street_url:
             abholtermine = get_abholtermine(street_url)
             for category, dates in abholtermine.items():
                 response_message = f"{category}:\n"
-                response_message += "\n".join(dates) + "\n"
+                response_message += "\n".join(dates)
                 send_message(user_id, response_message)
         else:
             send_message(user_id, "❌ Auswahl ungültig. Bitte versuchen Sie es erneut.")
