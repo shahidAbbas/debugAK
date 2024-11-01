@@ -76,27 +76,33 @@ def get_abholtermine(street_url):
     return abholtermine
 
 def clean_street_name(street_name):
-    # Remove numbers and extra spaces from the street name
-    #cleaned_name = re.sub(r'\d+', '', street_name).strip()
-    cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
-    #cleaned_name = cleaned_name.replace('-', ' ').strip()  # Replace dashes with spaces and remove extra spaces
-    return cleaned_name
+    # # Remove numbers and extra spaces from the street name
+    # #cleaned_name = re.sub(r'\d+', '', street_name).strip()
+    # cleaned_name = re.match(r'^[a-zA-ZäöüßÄÖÜ\s]+', street_name)
+    # cleaned_name.group(0).strip()
+    # #cleaned_name = cleaned_name.replace('-', ' ').strip()  # Replace dashes with spaces and remove extra spaces
+    # return cleaned_name
+    match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
+    return match.group(0).strip()
 
-street_choice = 'Alzeyer Straße 201-345; 188-300'
+street_choice = 'Alzeyer Straße 201-345A; 188-300C'
+street_choice2 = 'Von-Steuben-Straße (DRK) 49-53'
+street_choice3 = 'St.-Urban-Straße'
 print(clean_street_name(street_choice))
-print(str(street_choice))
+print(clean_street_name(street_choice2))
+print(clean_street_name(street_choice3))
          
 streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
 # allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
 
 # #print(allLinks)
 
-street_url = streetChoiceURLs.get(street_choice)
+# street_url = streetChoiceURLs.get(street_choice)
 
-print((street_url))
-if street_url:
-            abholtermine = get_abholtermine(street_url)
-            for category, dates in abholtermine.items():
-                response_message = f"{category}:\n"
-                response_message += "\n".join(dates)
-                print(response_message)
+# print((street_url))
+# if street_url:
+#             abholtermine = get_abholtermine(street_url)
+#             for category, dates in abholtermine.items():
+#                 response_message = f"{category}:\n"
+#                 response_message += "\n".join(dates)
+#                 print(response_message)

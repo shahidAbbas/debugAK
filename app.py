@@ -124,9 +124,11 @@ def get_abholtermine(street_url):
     return abholtermine
 
 def clean_street_name(street_name):
-    # Remove numbers and extra spaces from the street name
-    cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
-    return cleaned_name
+    match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
+    return match.group(0).strip()
+    # # Remove numbers, special character and extra spaces from the street name
+    # cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
+    # return cleaned_name
 
 @app.route('/')
 def index():
