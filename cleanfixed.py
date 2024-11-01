@@ -7,15 +7,15 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 
-app = Flask(__name__)
-app.secret_key = '4c3d2e1f0a9b8c7d6e5f4g3h2i1j0k9l'  # Replace with your generated secret key
+# app = Flask(__name__)
+# app.secret_key = '4c3d2e1f0a9b8c7d6e5f4g3h2i1j0k9l'  # Replace with your generated secret key
 
-# Shared list to store messages
-messages = []
-lock = threading.Lock()
+# # Shared list to store messages
+# messages = []
+# lock = threading.Lock()
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+# # Configure logging
+# logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
 # Constants
 TENANT_NAME = "worms"
@@ -126,18 +126,18 @@ def clean_street_name(street_name):
     match = re.match(r'^[a-zA-ZäöüßÄÖÜ\s.-]+', street_name)
     return match.group(0).strip()
 
-@app.route('/')
-def index():
-    return jsonify({"message": "Willkommen beim Chat-Service"}), 200
+# @app.route('/')
+# def index():
+#     return jsonify({"message": "Willkommen beim Chat-Service"}), 200
 
-@app.route('/chat_callback', methods=['POST'])
-def chat_callback():
-    json_data = request.get_json()
+# @app.route('/chat_callback', methods=['POST'])
+# def chat_callback():
+#     json_data = request.get_json()
 
-    message_content = json_data.get("message", {}).get("content", {}).get("messageContent", {}).get("messageText", "")
-    message_type = json_data.get("message", {}).get("content", {}).get("messageType", "")
-    user_id = json_data.get("message", {}).get("from", {}).get("userId", "")
-    conversation_id = json_data.get("message", {}).get("conversationId", "")
+#     message_content = json_data.get("message", {}).get("content", {}).get("messageContent", {}).get("messageText", "")
+#     message_type = json_data.get("message", {}).get("content", {}).get("messageType", "")
+#     user_id = json_data.get("message", {}).get("from", {}).get("userId", "")
+#     conversation_id = json_data.get("message", {}).get("conversationId", "")
 
     if message_type == "init":
         # Ask for the user's street name
