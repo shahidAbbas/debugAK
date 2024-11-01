@@ -79,18 +79,24 @@ def clean_street_name(street_name):
     # Remove numbers and extra spaces from the street name
     #cleaned_name = re.sub(r'\d+', '', street_name).strip()
     cleaned_name = re.sub(r'[^a-zA-ZäöüßÄÖÜ\s]', '', street_name).strip()
+    #cleaned_name = cleaned_name.replace('-', ' ').strip()  # Replace dashes with spaces and remove extra spaces
     return cleaned_name
 
-street_choice = 'Alzeyer Straße 156-184'
+street_choice = 'Alzeyer Straße 201-345; 188-300'
+print(clean_street_name(street_choice))
+print(street_choice)
          
-streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
-allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
+# streetChoiceURLs = get_street_web_address(clean_street_name(street_choice))
+# allLinks = "\n".join([f"{StreetName}: '{Links}'" for StreetName, Links in streetChoiceURLs.items()])
 
-street_url = streetChoiceURLs.get(street_choice)
-print(street_url)
-if street_url:
-            abholtermine = get_abholtermine(street_url)
-            for category, dates in abholtermine.items():
-                response_message = f"{category}:\n"
-                response_message += "\n".join(dates)
-                print(response_message)
+# #print(allLinks)
+
+# street_url = streetChoiceURLs.get(street_choice)
+
+# print((street_url))
+# if street_url:
+#             abholtermine = get_abholtermine(street_url)
+#             for category, dates in abholtermine.items():
+#                 response_message = f"{category}:\n"
+#                 response_message += "\n".join(dates)
+#                 print(response_message)
