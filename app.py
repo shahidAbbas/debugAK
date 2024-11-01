@@ -108,14 +108,13 @@ def get_abholtermine(street_url):
 
     divs = soup.find_all('div', style=lambda value: value and 'margin-top:25px;' in value)
     category_order = ["Gelbe Tonne 🟨", "Altpapier 📄", "Restabfall (bis 240 Liter) 🗑️", "Bio-Abfälle 🌱"]
-    today = datetime.now()
 
     for idx, div in enumerate(divs):
         current_category = category_order[idx // 3]
         div_content = div.get_text(separator="\n").split("\n")
         dates = [d.strip() for d in div_content if d.strip() and d.strip().isdigit() == False and d.strip().count('.') == 2]
-        
-        # future_dates = [date for date in dates if datetime.strptime(date, "%d.%m.%Y") >= today]
+        today = datetime.now()
+        future_dates = [date for date in dates if datetime.strptime(date, "%d.%m.%Y") >= today]
         
         abholtermine[current_category].extend(dates)
 
