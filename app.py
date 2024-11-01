@@ -116,7 +116,7 @@ def get_abholtermine(street_url):
         today = datetime.now()
         future_dates = [date for date in dates if datetime.strptime(date, "%d.%m.%Y") >= today]
         
-        abholtermine[current_category].extend(dates)
+        abholtermine[current_category].extend(future_dates)
 
     for category in abholtermine:
         abholtermine[category] = sorted(abholtermine[category], key=lambda date: datetime.strptime(date, "%d.%m.%Y"))
@@ -182,7 +182,7 @@ def chat_callback():
             if street_url:
                 abholtermine = get_abholtermine(street_url)
                 for category, dates in abholtermine.items():
-                    response_message = f"{category}:\n\n"
+                    response_message = f"{category}:\n"
                     response_message += "\n".join(dates)
                     send_message(user_id, response_message)
         else:
