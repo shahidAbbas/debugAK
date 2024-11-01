@@ -110,7 +110,7 @@ def get_abholtermine(street_url):
     category_order = ["Gelbe Tonne 🟨", "Altpapier 📄", "Restabfall (bis 240 Liter) 🗑️", "Bio-Abfälle 🌱"]
 
     for idx, div in enumerate(divs):
-        current_category = category_order[idx % len(category_order)]
+        current_category = category_order[idx // 3]
         div_content = div.get_text(separator="\n").split("\n")
         dates = [d.strip() for d in div_content if d.strip() and d.strip().isdigit() == False and d.strip().count('.') == 2]
         
